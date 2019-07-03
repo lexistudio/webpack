@@ -1,5 +1,5 @@
-import $ from "jquery";
-import YandexMap from "./yandex";
+import Common from "./common/init";
 
-// Yandex Maps Api;
-YandexMap.init();
+let common = new Common();
+
+common.init();
