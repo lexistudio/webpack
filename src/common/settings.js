@@ -1,9 +1,9 @@
-export default class Settings {
+class Settings {
   constructor() {
     this.settings = [];
   }
 
-  addToMap() {
-    console.log(11);
+  init() {
+    console.log(this);
   }
 }

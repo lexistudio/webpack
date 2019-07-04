@@ -1,6 +1,6 @@
-import Settings from "./settins";
+import Settings from "./settings";
 
-export default class Init extends Settings {
+export default class Init {
   constructor() {
     this.name;
     this.list = [];
@@ -8,5 +8,8 @@ export default class Init extends Settings {
 
   init() {
     console.log(this);
+
+    let settings = new Settings();
+    console.log(settings.init());
   }
 }
