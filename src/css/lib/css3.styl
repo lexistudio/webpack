@@ -1,0 +1,400 @@
+// == css3
+//
+// Прозрачно реализует работы со свойствами CSS3, автоматически генерируя
+// варианты, специфичные для различных браузеров.
+//
+// Реализаци
+//
+// Для использовани достаточно просто указать желаемое значение свойства в
+// каноническом виде.
+//
+// -----------------------------------------------------------------------------
+@require 'vendor'                                                     // <1>
+// -----------------------------------------------------------------------------
+//
+// <1> `vendor()`
+//
+// === appearance()
+//
+// Кроссбраузерный `appearance`:
+//
+// -----------------------------------------------------------------------------
+appearance()
+  vendor('appearance', arguments, only: webkit moz official)
+// -----------------------------------------------------------------------------
+//
+//
+// === box-shadow()
+//
+// Кроссбраузерный `box-shadow`:
+//
+// -----------------------------------------------------------------------------
+box-shadow()
+  vendor('box-shadow', arguments, only: webkit official)
+// -----------------------------------------------------------------------------
+//
+//
+// === border-radius()
+//
+// Кроссбраузерный `border-radius`:
+//
+// -----------------------------------------------------------------------------
+border-radius()
+  pos = ()
+  augmented = false
+  importance = arguments[length(arguments) - 1] == !important ? !important : unquote('')
+
+  for args in arguments
+    for arg in args
+      if arg is a 'ident'
+        append(pos, arg)
+        augmented = true
+      else
+        append(pos, arg)
+        if augmented
+          -border-radius-apply(pos, importance)
+          pos = ()
+  vendor('border-radius', pos, only: webkit official) unless augmented
+
+-border-radius-apply(pos, importance)
+  if length(pos) == 3
+    // border-radius: <top | buttom> <left | right> <n>
+    y = pos[0]
+    x = pos[1]
+    // We don't use moz for simple boder-radius anymore
+    // vendor('border-radius-%s%s' % pos, pos[2], only: moz)
+    vendor('border-%s-%s-radius' % pos, pos[2] importance, only: webkit official)
+  else if pos[0] in (top bottom)
+    // border-radius: <top | bottom> <n>
+    -border-radius-apply(pos[0] left pos[1], importance)
+    -border-radius-apply(pos[0] right pos[1], importance)
+  else if pos[0] in (left right)
+    // border-radius: <left | right> <n>
+    unshift(pos, top);
+    -border-radius-apply(pos, importance)
+    pos[0] = bottom
+    -border-radius-apply(pos, importance)
+// -----------------------------------------------------------------------------
+//
+//
+// === background()
+//
+// Кроссбраузерный `background`, включая свойства `background-image`,
+// `background-clip`, `background-origin`, `background-size`:
+//
+// -----------------------------------------------------------------------------
+background()
+  if match('-gradient\(', ''+arguments)
+    vendor('background', arguments, vendor-property: false)
+  else
+    background arguments
+
+background-image()
+  if match('-gradient\(', ''+arguments)
+    vendor('background-image', arguments, vendor-property: false)
+  else
+    background-image arguments
+
+background-clip()
+  if arguments[0] == text
+    vendor('background-clip', arguments, only: webkit)
+  else
+    -background-legacy-values('background-clip', arguments)
+    background-clip: arguments
+
+background-origin()
+  -background-legacy-values('background-origin', arguments)
+  background-origin: arguments
+
+background-size()
+  vendor('background-size', arguments, only: webkit moz official)
+
+-background-legacy-values(property, args)
+  legacy_args = ()
+  importance = unquote('')
+  for subargs in args
+    for arg in subargs
+      if arg in (border-box padding-box content-box)
+        arg = unquote('border')  if arg == border-box
+        arg = unquote('padding') if arg == padding-box
+        arg = unquote('content') if arg == content-box
+      if arg != '!important'
+        push(legacy_args,arg)
+      else
+        importance = !important
+  vendor(property, unquote(join(', ',legacy_args)) importance, only: moz webkit)
+// -----------------------------------------------------------------------------
+//
+//
+// === border-image()
+//
+// Кроссбраузерный `border-image`:
+//
+// -----------------------------------------------------------------------------
+border-image()
+  vendor('border-image', arguments, only: webkit moz o official)
+// -----------------------------------------------------------------------------
+//
+//
+// === column
+//
+// Кроссбраузерные свойства `column-count`, `column-gap`, `column-rule`,
+// `column-rule-color`, `column-rule-width`, `column-rule-style`,
+// `column-width`, `column-span`, `column-fill`.
+//
+// -----------------------------------------------------------------------------
+column-count()
+  vendor('column-count', arguments, only: webkit moz official)
+
+column-gap()
+  vendor('column-gap', arguments, only: webkit moz official)
+
+column-rule()
+  vendor('column-rule', arguments, only: webkit moz official)
+
+column-rule-color()
+  vendor('column-rule-color', arguments, only: webkit moz official)
+
+column-rule-width()
+  vendor('column-rule-width', arguments, only: webkit moz official)
+
+column-rule-style()
+  vendor('column-rule-style', arguments, only: webkit moz official)
+
+column-width()
+  vendor('column-width', arguments, only: webkit moz official)
+
+column-span()
+  vendor('column-span', arguments, only: webkit official)
+
+column-fill()
+  vendor('column-fill', arguments, only: moz)
+// -----------------------------------------------------------------------------
+//
+//
+// === transform()
+//
+// Кроссбраузерный `transform`, включая свойства `transform-origin`,
+// `transform-style`:
+//
+// -----------------------------------------------------------------------------
+transform()
+  vendor('transform', arguments)
+
+transform-origin()
+  vendor('transform-origin', arguments)
+
+transform-style()
+  vendor('transform-style', arguments)
+// -----------------------------------------------------------------------------
+//
+//
+// === transition()
+//
+// Кроссбраузерный `transition`, свойства `transition-property`,
+// `transition-duration`, `transition-timing-function`, `transition-delay`.
+//
+// -----------------------------------------------------------------------------
+transition()
+  vendor('transition', arguments)
+
+transition-property()
+  vendor('transition-property', arguments)
+
+transition-duration()
+  vendor('transition-duration', arguments)
+
+transition-timing-function()
+  vendor('transition-timing-function', arguments)
+
+transition-delay()
+  vendor('transition-delay', arguments)
+// -----------------------------------------------------------------------------
+//
+// === opacity()
+//
+// Поддержка прозрачности, в т.ч. для старых версий IE.
+//
+// -----------------------------------------------------------------------------
+opacity(n, args...)
+  opacity: n args
+  val = round(n * 100)
+  if val == 100
+    -ms-filter: none
+    filter: none
+  else
+    -ms-filter: '"progid:DXImageTransform.Microsoft.Alpha(Opacity=%s)"' % val args
+    filter: 'alpha(opacity=%s)' % val args
+// -----------------------------------------------------------------------------
+//
+//
+// === box-sizing()
+//
+// Кроссбраузерный `box-sizing`:
+//
+// -----------------------------------------------------------------------------
+box-sizing()
+  vendor('box-sizing', arguments, only: webkit moz official)
+// -----------------------------------------------------------------------------
+//
+//
+// === flexbox
+//
+// Кроссбраузерные свойства flexbox: `box-orient`, `box-flex-group`,
+// `box-ordinal-group`, `box-align`, `box-pack`, `box-direction`.
+//
+// -----------------------------------------------------------------------------
+box-orient()
+  vendor('box-orient', arguments, only: webkit moz official)
+
+box-flex-group()
+  vendor('box-flex-group', arguments, only: webkit moz official)
+
+box-ordinal-group()
+  vendor('box-ordinal-group', arguments, only: webkit moz ms official)
+
+box-align()
+  vendor('box-align', arguments, only: webkit moz ms official)
+
+box-pack()
+  vendor('box-pack', arguments, only: webkit moz ms official)
+
+box-direction()
+  vendor('box-direction', arguments, only: webkit moz ms official)
+// -----------------------------------------------------------------------------
+//
+//
+// === animation()
+//
+// Кроссбраузерный `animation`, в том числе:  `animation-name`,
+// `animation-duration`, `animation-delay`, `animation-direction`,
+// `animation-iteration-count`, `animation-timing-function`,
+// `animation-play-state`, `animation-fill-mode`.
+//
+// -----------------------------------------------------------------------------
+animation()
+  vendor('animation', arguments)
+
+animation-name()
+  vendor('animation-name', arguments)
+
+animation-duration()
+  vendor('animation-duration', arguments)
+
+animation-delay()
+  vendor('animation-delay', arguments)
+
+animation-direction()
+  vendor('animation-direction', arguments)
+
+animation-iteration-count()
+  vendor('animation-iteration-count', arguments)
+
+animation-timing-function()
+  vendor('animation-timing-function', arguments)
+
+animation-play-state()
+  vendor('animation-play-state', arguments)
+
+animation-fill-mode()
+  vendor('animation-fill-mode', arguments)
+// -----------------------------------------------------------------------------
+//
+//
+// === placeholder()
+//
+//
+// Кроссбраузерный `placeholder`:
+//
+// -----------------------------------------------------------------------------
+placeholder()
+  for v in ':-webkit-input' '-moz' ':-moz' '-ms-input'
+    &:{v}-placeholder
+      for pair in arguments
+        if typeof(pair) == 'function'
+          pair()
+        else if pair is not null && pair[0] is not null
+          {pair[0]}: type(pair[1]) == 'string' ? s(pair[1]) : pair[1]
+// -----------------------------------------------------------------------------
+//
+// === hyphens()
+//
+// Кроссбраузерный `hyphens`:
+//
+// -----------------------------------------------------------------------------
+hyphens()
+  vendor('hyphens', arguments, only: webkit moz ms official)
+// -----------------------------------------------------------------------------
+//
+// === tab-size()
+//
+// Кроссбраузерный `tab-size`:
+//
+// -----------------------------------------------------------------------------
+tab-size()
+  vendor('tab-size', arguments, only: moz o official)
+// -----------------------------------------------------------------------------
+//
+//
+// === overflow-scrolling()
+//
+// Кроссбраузерный `overflow-scrolling`:
+//
+// -----------------------------------------------------------------------------
+overflow-scrolling()
+  vendor('overflow-scrolling', arguments, only: webkit official)
+// -----------------------------------------------------------------------------
+//
+//
+// === text-overflow()
+//
+// Кроссбраузерный `text-overflow`:
+//
+// -----------------------------------------------------------------------------
+text-overflow()
+  vendor('text-overflow', arguments, only: official o)
+// -----------------------------------------------------------------------------
+//
+//
+//  === text-size-adjust()
+//
+// Кроссплатформенный `text-size-adjust`:
+//
+// -----------------------------------------------------------------------------
+text-size-adjust()
+  vendor('text-size-adjust', arguments, only: official webkit ms)
+// -----------------------------------------------------------------------------
+//
+//
+// === font-smoothing()
+//
+// Кроссплатформенный `font-smoothing`:
+//
+// -----------------------------------------------------------------------------
+font-smoothing()
+  vendor('font-smoothing', arguments, only: webkit)
+// -----------------------------------------------------------------------------
+//
+//
+// === cursor()
+//
+// Кроссплатформенный `cursor`:
+//
+// -----------------------------------------------------------------------------
+cursor()
+  if match('-gradient\(', ''+arguments)
+    vendor('cursor', arguments, vendor-property: false)
+  else
+    cursor arguments
+// -----------------------------------------------------------------------------
+//
+//
+// === user-select()
+//
+// Кроссплатформенный `user-select`:
+//
+// -----------------------------------------------------------------------------
+user-select()
+  vendor('user-select', arguments, only: webkit moz ms official)
+// -----------------------------------------------------------------------------
+//

@@ -1,0 +1,54 @@
+// == vendor
+//
+// Модуль обеспечивает работу с префиксами вендоров.
+// Реализация: nib (http://visionmedia.github.io/nib/).
+//
+// Использует набор вспомогательных фукнций `vendor.js`:
+//
+// -----------------------------------------------------------------------------
+use('vendor.js');
+// -----------------------------------------------------------------------------
+//
+// Набор поддерживаемых префиксов:
+//
+// -----------------------------------------------------------------------------
+vendor-prefixes ?= webkit moz o ms official
+// -----------------------------------------------------------------------------
+//
+// === vendor
+//
+// Поддержка префиксов для указанного свойства или набора аргументов с
+// возможным указанием применяемых или исключаемых префиксов.
+//
+// -----------------------------------------------------------------------------
+vendor(prop, args, only = null, ignore = null, vendor-property = true)
+  need_normalize = !vendor-property or prop in ('transition' 'transition-property' 'border-image' 'border-image-slice')
+  for prefix in vendor-prefixes
+    unless (only and !(prefix in only)) or (ignore and prefix in ignore)
+      if official == prefix
+        if need_normalize
+          {prop}: normalize(prop,('%s' % args))
+        else
+          {prop}: args
+      else
+        newprop = prop
+        newprop = '-' + prefix + '-' + prop if vendor-property
+
+        if need_normalize
+          {newprop}: normalize(prop,('%s' % args),prefix)
+        else
+          {newprop}: args
+// -----------------------------------------------------------------------------
+//
+// === vendor-value
+//
+// Применяет префикс к значению.
+//
+// -----------------------------------------------------------------------------
+vendor-value(arg, only = null, ignore = null)
+  prop = current-property[0]
+  for prefix in vendor-prefixes
+    unless (only and !(prefix in only)) or (ignore and prefix in ignore) or official == prefix
+      add-property(prop, '-%s-%s' % (prefix arg))
+  arg
+// -----------------------------------------------------------------------------

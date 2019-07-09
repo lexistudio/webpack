@@ -1,35 +1,22 @@
-// Подключаем расширение для путей
+let merge = require("webpack-merge");
 let path = require("path");
+let Babel = require("./src/webpack/module.babel");
+let Css = require("./src/webpack/plugin.extract.css");
 
-// Настройки webpack
-let conf = {
-  entry: {
-    // Указываем входную точку сборки
-    app: "./src/index.js"
+let common = merge([
+  {
+    entry: {
+      app: "./src/index.js"
+    },
+    output: {
+      path: path.resolve(__dirname, "www/assets/js"),
+      filename: "[name].js"
+    },
+    watch: false,
+    mode: "production"
   },
-  output: {
-    // Указываем имя и путь сгенерированного файла
-    path: path.resolve(__dirname, "www/assets/js"),
-    filename: "[name].js"
-  },
-  // Параметр автоматической пересборки
-  watch: false,
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: "/node_modules/",
-        use: [
-          {
-            loader: "babel-loader",
-            options: {
-              presets: ["env", "stage-3", "es2015", "es2016"]
-            }
-          }
-        ]
-      }
-    ]
-  }
-};
+  Babel(),
+  Css()
+]);
 
-module.exports = conf;
+module.exports = common;

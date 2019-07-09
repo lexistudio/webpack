@@ -1,0 +1,278 @@
+// == normalize
+//
+// Нормализация элементов страницы для различных браузеров.
+//
+// Зависимости модуля:
+//
+// -----------------------------------------------------------------------------
+@require 'reset'                                                        // <1>
+// -----------------------------------------------------------------------------
+//
+// <1> `reset`
+//
+// === use-normalize()
+//
+// Выполняет полную нормализацию.
+//
+// -----------------------------------------------------------------------------
+use-normalize()
+  +media(any)
+    normalize-document()
+    normalize-html5()
+    normalize-links()
+    normalize-content()
+    normalize-forms()
+// -----------------------------------------------------------------------------
+//
+//
+// === normalize-document()
+//
+// Выполняет нормализацию настроек документа:
+//
+// -----------------------------------------------------------------------------
+normalize-document()
+  html
+    font-size: 100%                                                     // <1>
+    -ms-text-size-adjust: 100%                                          // <2>
+    -webkit-text-size-adjust: 100%
+  body
+    margin: 0                                                           // <3>
+// -----------------------------------------------------------------------------
+//
+// <1> проблемы в IE7 если `font-size` для `body` в `em`
+// <2> блокируем подстройку размера текста в iOS после изменения ориентации
+//     устройства без отключения пользовательского масштабирования
+// <3> отступы для документа в IE7
+//
+//
+// === normalize-html5()
+//
+// Выполняет нормализацию элементов HTML5.
+//
+// -----------------------------------------------------------------------------
+normalize-html5()
+  article                                                               // <1>
+  aside
+  figcaption
+  figure
+  footer
+  header
+  hgroup
+  nav
+  section
+  details
+  summary
+  main
+    display: block
+
+  audio
+  canvas
+  progress
+  video
+    display:        inline-block                                        // <2>
+    vertical-align: baseline                                            // <3>
+
+  audio:not([controls])
+    display: none                                                       // <4>
+    height:  0                                                          // <5>
+
+  [hidden]
+  template
+    display: none !important                                            // <6>
+// -----------------------------------------------------------------------------
+//
+// <1> все элементы в IE8-9, `<details>` и `<summary>` в IE10-11/FF,
+//     `<main>` в IE11
+// <2> `inline-block` не определен в IE8-9
+// <3> проблемы с выравниванием в GC/FF/O
+// <4> не показываем `<audio>` без элементов управления
+// <5> корректировка высоты в IOS5
+// <6> `hidden` в IE8-10, `<template` в IE8-11/SF/FF<22
+//
+//
+// === normalize-links()
+//
+// Выполняет нормализацию отображения ссылок.
+//
+// -----------------------------------------------------------------------------
+normalize-links()
+  a
+    background: transparent                                             // <1>
+  a:active
+  a:hover
+    outline: 0                                                          // <2>
+// -----------------------------------------------------------------------------
+//
+// <1> серый фон для активных ссылок в IE10
+// <2> читаемость ссылок в фокусе для всех браузеров
+//
+// === normalize-content
+//
+// Выполняет нормализацию отображения контентных элементов:
+//
+//------------------------------------------------------------------------------
+normalize-content()
+  abbr[title]
+    border-bottom: 1px dotted                                           // <1>
+
+  b
+  strong
+    font-weight: bold                                                   // <2>
+
+  dfn
+    font-style: italic                                                  // <3>
+
+  mark
+    background: #ff0                                                    // <4>
+    color: #000
+
+  small
+    font-size: 80%                                                      // <5>
+
+  sub
+  sup
+    font-size: 75%                                                      // <6>
+    line-height: 0
+    position: relative
+    vertical-align: baseline
+  sup
+    top: -0.5em
+  sub
+    bottom: -0.25em
+
+  img
+    border: 0                                                           // <7>
+
+  svg:not(:root)
+    overflow: hidden                                                    // <8>
+
+  hr
+    -moz-box-sizing: content-box                                        // <9>
+    box-sizing: content-box
+    height: 0
+
+  pre
+    overflow: auto
+
+  code
+  kbd
+  pre
+  samp
+    font-size: 1em                                                      // <10>
+
+  table
+    border-collapse: collapse                                           // <11>
+    border-spacing: 0
+  td
+  th
+    padding: 0
+
+  nav > ul
+    list-style: none
+//------------------------------------------------------------------------------
+//
+// <1>  стилизация `<abbr>` отсутствует в IE8-11/SF/GC
+// <2>  `bolder` в FF4+/SF/GC
+// <3>  не стилизуется в SF/GC
+// <4>  не поддерживаетсяв IE8-9
+// <5>  единый размер `<small>` для всех браузеров
+// <6>  `<sub>` и `<sup>` не должны влиять на `line-height`
+// <7>  изображения в ссылках в IE8-10
+// <8>  корректировка `overflow` в IE10-11
+// <9>  `<hr>` отображается по разному FF и всеми остальными
+// <10> устанавливаем единый размер шрифта для всех браузеров
+// <11> удаляем отступы для таблиц
+//
+//
+// === normalize-forms
+//
+// Выполняет нормализацию форм.
+//
+//------------------------------------------------------------------------------
+normalize-forms()
+  button
+  input
+  optgroup
+  select
+  textarea
+    color: inherit                                                      // <1>
+    font: inherit                                                       // <2>
+    margin: 0                                                           // <3>
+
+  button
+    overflow: visible                                                   // <4>
+
+  button
+  select
+    text-transform: none                                                // <5>
+
+  button
+  html input[type="button"]
+  input[type="reset"]
+  input[type="submit"]
+    -webkit-appearance: button                                          // <6>
+    cursor: pointer                                                     // <7>
+
+  button[disabled]
+  html input[disabled]
+    cursor: default                                                     // <8>
+
+  button::-moz-focus-inner
+  input::-moz-focus-inner
+    border: 0                                                           // <9>
+    padding: 0
+
+  input
+    line-height: normal                                                 // <10>
+
+  input[type="checkbox"]
+  input[type="radio"]
+    box-sizing: border-box                                              // <11>
+    padding: 0                                                          // <12>
+
+  input[type="number"]::-webkit-inner-spin-button                       // <13>
+  input[type="number"]::-webkit-outer-spin-button
+    height: auto
+
+  input[type="search"]
+    -webkit-appearance: textfield                                       // <14>
+    -moz-box-sizing: content-box
+    -webkit-box-sizing: content-box                                     // <15>
+    box-sizing: content-box
+  input[type="search"]::-webkit-search-cancel-button
+  input[type="search"]::-webkit-search-decoration
+    -webkit-appearance: none                                            // <16>
+
+  legend
+    border: 0                                                           // <17>
+    padding: 0                                                          // <18>
+
+  textarea
+    overflow: auto                                                      // <19>
+
+  optgroup
+    font-weight: bold                                                   // <20>
+// -----------------------------------------------------------------------------
+//
+// <1> не неследуется цвет, влияет на цвет неактивных элементов
+// <2> корректные свойства шрифта не наследуются
+// <3> отступы устанавливаются по-разному в FF4/SF/GC
+// <4> в IE8-11 выставляется `overflow: hidden`
+// <5> наследование: `<button>` в FF/IE8-11/O, `<select>` в FF
+// <6> ошибка WebKit в Android 4.0.*, медийные элементы управления,
+//     невозможность стилизовать кликабельные <input> в iOS
+// <7> единообразие типа курсора между кнопками с изображениями и остальными
+// <8> курсор для отключенных элементов
+// <9> внутренний отступ и обрамление для элементов в фокусе в FF
+// <10> несовместимость в FF4+
+// <11> `content-box` в IE8-10
+// <12> избыточный отступ в IE8-10
+// <13> высота в GC
+// <14> `appearance: searchfield` в SF/GC
+// <15> `box-sizing: border-box` в SF/GC
+// <16> внутренний отступ и кнопка отмена поиска в SF/GC в OS X
+// <17> в IE8-11 не наследуется `color`
+// <18> удаляем внутренний отступ по умолчанию
+// <19> вертикальный скроллбар в IE8-11
+// <20> везде выделяет `<optgroup>`
+//

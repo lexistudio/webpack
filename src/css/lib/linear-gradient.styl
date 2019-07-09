@@ -1,0 +1,105 @@
+// == linear-gradient
+//
+// Модуль реализует вспомогательные функции для реализации градиентов.
+//
+// Модуль использует набор вспомогательных функций `linear-gradient.js`:
+//
+// -----------------------------------------------------------------------------
+//use('linear-gradient.js');
+// -----------------------------------------------------------------------------
+//
+// === linear-gradient()
+//
+// Создает линейный градиент с заданными стартовой позицией и произвольным
+// набором точек смены цвета.
+//
+// Использование:
+//
+// -----------------------------------------------------------------------------
+// background: linear-gradient(top, red, green, blue)
+// background: linear-gradient(bottom, red, green 50%, blue)
+// background: linear-gradient(bottom, red, 50% green, blue)
+// background: linear-gradient(bottom, red, 50% green, 90% white, blue)
+// -----------------------------------------------------------------------------
+//
+// Реализация:
+//
+// -----------------------------------------------------------------------------
+linear-gradient(start, stops...)
+  error('color stops required') unless length(stops)
+
+  unquote('linear-gradient(' + join(', ',arguments) + ')')
+// -----------------------------------------------------------------------------
+//
+//
+// === linear-gradient-image()
+//
+// Генерирует изображение для указанного линейного градиента в виде Data URI.
+// Это позволяет определять непосредственно в CSS простые градиенты для
+// браузеров, не поддерживающих градиенты CSS3.
+//
+// Пример использования:
+//
+// -----------------------------------------------------------------------------
+//
+// .nav {
+//    background: linear-gradient-image(80px, white, black);
+//    background: linear-gradient(top, white, black);
+// }
+//
+// -----------------------------------------------------------------------------
+//
+// Реализация:
+//
+// -----------------------------------------------------------------------------
+linear-gradient-image(start, stops...)
+  error('node-canvas is required for linear-gradient-image()') unless has-canvas
+  stops = stops[0] if length(stops) == 1
+  error('gradient image size required') unless start[0] is a 'unit'
+  size = start[0]
+  start = start[1] or 'top'
+  grad = -linear-gradient-create-image(size, start)
+  stops = -linear-gradient-normalize-stops(stops)
+  -linear-gradient-add-stop(grad, stop[0], stop[1]) for stop in stops
+  'url(%s)' % -linear-gradient-data-uri(grad)
+// -----------------------------------------------------------------------------
+//
+//
+// === -linear-gradient-post-in-stops()
+//
+// Вспомогательный макрос.
+//
+// -----------------------------------------------------------------------------
+-linear-gradient-pos-in-stops(i, stops)
+  len = length(stops)
+  if len - 1 == i
+    100%
+  else if i
+    unit(i / len * 100, '%')
+  else
+    0
+// -----------------------------------------------------------------------------
+//
+//
+// === -linear-gradient-normalize-stops()
+//
+// Вспомогательный макрос, нормализация color stops:
+//
+// - (color pos) -> (pos color)
+// - (color) -> (implied-pos color)
+//
+// -----------------------------------------------------------------------------
+-linear-gradient-normalize-stops(stops)
+  stops = clone(stops)
+  for stop, i in stops
+    if length(stop) == 1
+      color = stop[0]
+      stop[0] = -linear-gradient-pos-in-stops(i, stops)
+      stop[1] = color
+    else if typeof(stop[1]) == 'unit'
+      pos = stop[1]
+      stop[1] = stop[0]
+      stop[0] = pos
+  stops
+// -----------------------------------------------------------------------------
+//
