@@ -10,7 +10,8 @@ let common = merge([
     },
     output: {
       path: path.resolve(__dirname, "www/assets/js"),
-      filename: "[name].js"
+      filename: "[name].js",
+      publicPath: "./www"
     },
     watch: false,
     mode: "production"

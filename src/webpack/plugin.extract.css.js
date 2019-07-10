@@ -1,4 +1,5 @@
 let MiniCssExtractPlugin = require("mini-css-extract-plugin");
+let path = require("path");
 
 module.exports = function() {
   return {
@@ -10,12 +11,8 @@ module.exports = function() {
           use: [
             "style-loader",
             MiniCssExtractPlugin.loader,
-            {
-              loader: "css-loader"
-            },
-            {
-              loader: "stylus-loader"
-            }
+            "css-loader",
+            "stylus-loader"
           ]
         }
       ]
