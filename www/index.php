@@ -7,8 +7,30 @@
   <link rel="stylesheet" href="/assets/js/app.css">
   <title>webpack</title>
 </head>
-<body>
-  <div class="wrapper"></div>
+<body class="grid">
+  <div class="wrapper">
+    <header class="head">
+      <div class="page head__border">
+        header
+      </div>
+    </header>
+
+    <section class="banner">
+      <div class="page">
+        <a href="#" class="js-modal">
+          modal
+        </a>
+      </div>
+    </section>
+
+    <div class="push"></div>
+  </div>
+
+  <footer class="foot">
+    <div class="page">
+      footer
+    </div>
+  </footer>
   
   <script src="/assets/js/app.js"></script>
 </body>

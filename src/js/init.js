@@ -8,7 +8,8 @@ export default class Init extends Settings {
   }
 
   init() {
-    console.log(this);
-    console.log($(document));
+    $(function() {
+      console.log($(document));
+    });
   }
 }

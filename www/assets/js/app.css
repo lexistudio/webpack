@@ -429,6 +429,25 @@ html {
     box-sizing: border-box;
   }
 }
+.head {
+  background: #f7fafc;
+}
+.head__border {
+  border-bottom: 1px solid #edf2f7;
+  height: 60px;
+}
+.banner {
+  background: #f7fafc;
+  height: 400px;
+}
+.push {
+  height: 200px;
+}
+.foot {
+  height: 200px;
+  background: #f7fafc;
+  margin-top: -200px;
+}
 .swiper-container {
   margin: 0 auto;
   position: relative;
@@ -1131,13 +1150,5 @@ button.swiper-pagination-bullet {
 }
 #cboxClose:hover {
   background-position: -25px -25px;
-}
-.push {
-  height: 200px;
-}
-.foot {
-  height: 200px;
-  background: #f6f6f6;
-  margin-top: -200px;
 }
 
