@@ -338,11 +338,11 @@ html {
   left: 0;
   right: 0;
   z-index: 99999;
-  background: -webkit-linear-gradient(left, rgba(0,0,0,0.1) 85px, transparent 85px);
-  background: -moz-linear-gradient(left, rgba(0,0,0,0.1) 85px, transparent 85px);
-  background: -o-linear-gradient(left, rgba(0,0,0,0.1) 85px, transparent 85px);
-  background: -ms-linear-gradient(left, rgba(0,0,0,0.1) 85px, transparent 85px);
-  background: linear-gradient(to right, rgba(0,0,0,0.1) 85px, transparent 85px);
+  background: -webkit-linear-gradient(left, rgba(255,0,0,0.1) 85px, transparent 85px);
+  background: -moz-linear-gradient(left, rgba(255,0,0,0.1) 85px, transparent 85px);
+  background: -o-linear-gradient(left, rgba(255,0,0,0.1) 85px, transparent 85px);
+  background: -ms-linear-gradient(left, rgba(255,0,0,0.1) 85px, transparent 85px);
+  background: linear-gradient(to right, rgba(255,0,0,0.1) 85px, transparent 85px);
   -webkit-background-size: 115px;
   -moz-background-size: 115px;
   background-size: 115px;
@@ -351,11 +351,11 @@ html {
 @media screen and (max-width: 1400px) {
   .grid:before {
     width: 1170px;
-    background: -webkit-linear-gradient(left, rgba(0,0,0,0.1) 70px, transparent 70px);
-    background: -moz-linear-gradient(left, rgba(0,0,0,0.1) 70px, transparent 70px);
-    background: -o-linear-gradient(left, rgba(0,0,0,0.1) 70px, transparent 70px);
-    background: -ms-linear-gradient(left, rgba(0,0,0,0.1) 70px, transparent 70px);
-    background: linear-gradient(to right, rgba(0,0,0,0.1) 70px, transparent 70px);
+    background: -webkit-linear-gradient(left, rgba(255,0,0,0.1) 70px, transparent 70px);
+    background: -moz-linear-gradient(left, rgba(255,0,0,0.1) 70px, transparent 70px);
+    background: -o-linear-gradient(left, rgba(255,0,0,0.1) 70px, transparent 70px);
+    background: -ms-linear-gradient(left, rgba(255,0,0,0.1) 70px, transparent 70px);
+    background: linear-gradient(to right, rgba(255,0,0,0.1) 70px, transparent 70px);
     -webkit-background-size: 100px;
     -moz-background-size: 100px;
     background-size: 100px;
@@ -364,11 +364,11 @@ html {
 @media screen and (max-width: 1200px) {
   .grid:before {
     width: 940px;
-    background: -webkit-linear-gradient(left, rgba(0,0,0,0.1) 60px, transparent 60px);
-    background: -moz-linear-gradient(left, rgba(0,0,0,0.1) 60px, transparent 60px);
-    background: -o-linear-gradient(left, rgba(0,0,0,0.1) 60px, transparent 60px);
-    background: -ms-linear-gradient(left, rgba(0,0,0,0.1) 60px, transparent 60px);
-    background: linear-gradient(to right, rgba(0,0,0,0.1) 60px, transparent 60px);
+    background: -webkit-linear-gradient(left, rgba(255,0,0,0.1) 60px, transparent 60px);
+    background: -moz-linear-gradient(left, rgba(255,0,0,0.1) 60px, transparent 60px);
+    background: -o-linear-gradient(left, rgba(255,0,0,0.1) 60px, transparent 60px);
+    background: -ms-linear-gradient(left, rgba(255,0,0,0.1) 60px, transparent 60px);
+    background: linear-gradient(to right, rgba(255,0,0,0.1) 60px, transparent 60px);
     -webkit-background-size: 80px;
     -moz-background-size: 80px;
     background-size: 80px;
@@ -377,11 +377,11 @@ html {
 @media screen and (max-width: 980px) {
   .grid:before {
     width: 720px;
-    background: -webkit-linear-gradient(left, rgba(0,0,0,0.1) 38px, transparent 38px);
-    background: -moz-linear-gradient(left, rgba(0,0,0,0.1) 38px, transparent 38px);
-    background: -o-linear-gradient(left, rgba(0,0,0,0.1) 38px, transparent 38px);
-    background: -ms-linear-gradient(left, rgba(0,0,0,0.1) 38px, transparent 38px);
-    background: linear-gradient(to right, rgba(0,0,0,0.1) 38px, transparent 38px);
+    background: -webkit-linear-gradient(left, rgba(255,0,0,0.1) 38px, transparent 38px);
+    background: -moz-linear-gradient(left, rgba(255,0,0,0.1) 38px, transparent 38px);
+    background: -o-linear-gradient(left, rgba(255,0,0,0.1) 38px, transparent 38px);
+    background: -ms-linear-gradient(left, rgba(255,0,0,0.1) 38px, transparent 38px);
+    background: linear-gradient(to right, rgba(255,0,0,0.1) 38px, transparent 38px);
     -webkit-background-size: 62px;
     -moz-background-size: 62px;
     background-size: 62px;
@@ -390,11 +390,11 @@ html {
 @media screen and (max-width: 765px) {
   .grid:before {
     width: 90%;
-    background: -webkit-linear-gradient(left, rgba(0,0,0,0.1) 90%, transparent 90%);
-    background: -moz-linear-gradient(left, rgba(0,0,0,0.1) 90%, transparent 90%);
-    background: -o-linear-gradient(left, rgba(0,0,0,0.1) 90%, transparent 90%);
-    background: -ms-linear-gradient(left, rgba(0,0,0,0.1) 90%, transparent 90%);
-    background: linear-gradient(to right, rgba(0,0,0,0.1) 90%, transparent 90%);
+    background: -webkit-linear-gradient(left, rgba(255,0,0,0.1) 90%, transparent 90%);
+    background: -moz-linear-gradient(left, rgba(255,0,0,0.1) 90%, transparent 90%);
+    background: -o-linear-gradient(left, rgba(255,0,0,0.1) 90%, transparent 90%);
+    background: -ms-linear-gradient(left, rgba(255,0,0,0.1) 90%, transparent 90%);
+    background: linear-gradient(to right, rgba(255,0,0,0.1) 90%, transparent 90%);
     -webkit-background-size: 52.9%;
     -moz-background-size: 52.9%;
     background-size: 52.9%;

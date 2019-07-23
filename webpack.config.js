@@ -1,7 +1,7 @@
 let merge = require("webpack-merge");
 let path = require("path");
 let Babel = require("./src/webpack/module.babel");
-let Css = require("./src/webpack/plugin.extract.css");
+let Css = require("./src/webpack/module.css");
 
 let common = merge([
   {
@@ -9,11 +9,11 @@ let common = merge([
       app: "./src/index.js"
     },
     output: {
-      path: path.resolve(__dirname, "www/assets/js"),
-      filename: "[name].js",
+      path: path.resolve(__dirname, "www/assets"),
+      filename: "js/[name].js",
       publicPath: "./www"
     },
-    watch: false,
+    watch: true,
     mode: "production"
   },
   Babel(),
